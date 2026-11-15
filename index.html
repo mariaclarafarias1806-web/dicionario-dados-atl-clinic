@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dicionário de Dados do Sistema de Gestão Operacional e Reservas da ATL Clinic: tabelas, colunas, privacidade LGPD, linhagem e controle de acesso.">
+  <title>Dicionário de Dados | ATL Clinic</title>
+
+  <!-- Fontes (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+  <!-- Ícones (Font Awesome 6, cdnjs) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Estilos do projeto (mesma pasta do index.html) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ============================== TOPBAR ============================== -->
+  <header class="topbar">
+    <button id="btn-menu" class="btn-icone btn-menu" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir navegação das tabelas">
+      <i class="fa-solid fa-bars" aria-hidden="true"></i>
+    </button>
+    <div class="marca">
+      <span class="marca-simbolo" aria-hidden="true"><i class="fa-solid fa-house-medical"></i></span>
+      <div>
+        <p class="marca-empresa">ATL Clinic</p>
+        <h1 class="marca-titulo">Dicionário de Dados</h1>
+      </div>
+    </div>
+    <button id="btn-tema" class="btn-tema" type="button" aria-pressed="false">
+      <i class="fa-solid fa-moon" aria-hidden="true"></i><span>Modo escuro</span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <!-- ============================== SIDEBAR ============================== -->
+    <nav id="sidebar" class="sidebar" aria-label="Tabelas do banco de dados">
+      <p class="sidebar-titulo">Tabelas</p>
+      <div id="nav-tabelas" class="nav-tabelas"></div>
+    </nav>
+    <div id="sidebar-fundo" class="sidebar-fundo" hidden></div>
+
+    <!-- ============================== MAIN ============================== -->
+    <main id="conteudo" class="main" tabindex="-1">
+
+      <!-- Identificação do projeto -->
+      <section class="identificacao" aria-labelledby="ident-titulo">
+        <div class="ident-cabeca">
+          <h2 id="ident-titulo">Sistema de Gestão Operacional e Reservas</h2>
+          <p class="ident-sub">Projeto de modelagem de banco de dados · UNICID · CST em Análise e Desenvolvimento de Sistemas · Grupo 01</p>
+          <ul id="indicadores" class="indicadores" aria-label="Indicadores do modelo"></ul>
+        </div>
+
+        <div class="ident-grade">
+          <article class="ident-bloco ident-escopo">
+            <h3>Escopo</h3>
+            <p id="escopo-texto"></p>
+          </article>
+          <article class="ident-bloco">
+            <h3>Tecnologia</h3>
+            <dl id="tecnologia-lista" class="tecnologia"></dl>
+          </article>
+          <article class="ident-bloco ident-responsaveis">
+            <h3>Responsáveis</h3>
+            <ul id="responsaveis-lista" class="responsaveis"></ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Painel de controle -->
+      <section class="painel" aria-label="Painel de controle do dicionário">
+        <div class="painel-acoes">
+          <a class="btn btn-primario" href="docs/Especificacao_Requisitos_Regras_Negocio_BD.pdf" download>
+            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Baixar Especificação de Requisitos (PDF)
+          </a>
+          <button id="btn-der" class="btn btn-secundario" type="button" aria-haspopup="dialog" aria-controls="modal-der">
+            <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Abrir DER
+          </button>
+        </div>
+        <div class="busca">
+          <label for="busca" class="busca-rotulo">Filtrar por tabela ou coluna</label>
+          <div class="busca-campo">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input id="busca" type="search" placeholder="Ex.: reserva, cpf, status" autocomplete="off" spellcheck="false" aria-describedby="busca-status">
+            <button id="busca-limpar" class="btn-icone" type="button" aria-label="Limpar filtro">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+          <p id="busca-status" class="busca-status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- Legenda de privacidade -->
+      <section class="legenda" aria-label="Legenda de privacidade">
+        <span><span class="badge badge-dps">DPS</span> Dado pessoal sensível (LGPD, art. 5º, II)</span>
+        <span><span class="badge badge-dp">DP</span> Dado pessoal (LGPD, art. 5º, I)</span>
+        <span><span class="badge badge-na">N/A</span> Não identifica pessoa natural</span>
+        <span class="legenda-nota">Nenhuma tabela armazena dados de pacientes (EN-01); por isso não há coluna classificada como DPS.</span>
+      </section>
+
+      <!-- Dicionário (gerado por script.js) -->
+      <div id="dicionario" class="dicionario"></div>
+      <p id="busca-vazia" class="busca-vazia" hidden>Nenhuma tabela ou coluna corresponde ao filtro. Revise o termo ou limpe o campo para ver o dicionário completo.</p>
+
+      <footer class="rodape">
+        <p>ATL Clinic · Dicionário de Dados gerado a partir do DDL <code>atl_clinic_ddl.sql</code>, do DER v1.4 e da Especificação de Requisitos v1.4 · <span id="ano"></span></p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ============================== MODAL DER ============================== -->
+  <div id="modal-der" class="modal" role="dialog" aria-modal="true" aria-labelledby="der-titulo" hidden>
+    <div class="modal-barra">
+      <h2 id="der-titulo">Diagrama Entidade-Relacionamento</h2>
+      <div class="modal-controles">
+        <button id="der-zoom-in" class="btn-icone" type="button" aria-label="Aumentar zoom" title="Aumentar zoom (+)"><i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i></button>
+        <button id="der-zoom-out" class="btn-icone" type="button" aria-label="Diminuir zoom" title="Diminuir zoom (-)"><i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i></button>
+        <button id="der-reset" class="btn-icone" type="button" aria-label="Restaurar tamanho e posição" title="Restaurar (0)"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></button>
+        <button id="der-fechar" class="btn-icone btn-fechar" type="button" aria-label="Fechar DER" title="Fechar (Esc)"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="modal-palco">
+      <img id="der-img" src="assets/der.png" alt="DER lógico da ATL Clinic com as 17 tabelas e seus relacionamentos">
+    </div>
+    <p class="modal-dica">Role o mouse para aproximar, arraste para mover. Atalhos: +, -, 0 e Esc.</p>
+    <p id="der-aviso" class="modal-aviso" hidden>A biblioteca de zoom não carregou. Verifique a conexão com o CDN; a imagem continua visível sem zoom.</p>
+  </div>
+
+  <!-- Panzoom (jsDelivr) e script do projeto -->
+  <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
